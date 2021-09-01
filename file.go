@@ -7,6 +7,10 @@ import (
 
 var _readFile = ioutil.ReadFile
 
+type FileReader interface {
+	readFile(path string) *File
+}
+
 type File struct {
 	Name string
 	Data []byte
