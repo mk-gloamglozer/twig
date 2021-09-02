@@ -1,5 +1,7 @@
 package main
 
+import "path/filepath"
+
 type ApplicationContext interface {
 	BaseFilePath() string
 	Template() []byte
@@ -16,7 +18,7 @@ func (ctx *IApplicationContext) FileReader() FileReader {
 }
 
 func (ctx *IApplicationContext) BaseFilePath() string {
-	return ctx.baseFile.Name
+	return filepath.Dir(ctx.baseFile.Name)
 }
 
 func (ctx *IApplicationContext) Template() []byte {
