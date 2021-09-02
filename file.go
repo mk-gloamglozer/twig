@@ -5,10 +5,11 @@ import (
 	"log"
 )
 
-var _readFile = ioutil.ReadFile
-
 type FileReader interface {
-	readFile(path string) *File
+	readFile(path string) (*File, error)
+}
+
+type IFileReader struct {
 }
 
 type File struct {
@@ -16,17 +17,17 @@ type File struct {
 	Data []byte
 }
 
-func readFile(path string) *File {
+func (*IFileReader) readFile(path string) (*File, error) {
 
-	var data, err = _readFile(path)
+	var data, err = ioutil.ReadFile(path)
 
 	if err != nil {
 		log.Fatal(err)
-		panic(err)
+		return nil, err
 	}
 
 	return &File{
 		Name: path,
 		Data: data,
-	}
+	}, nil
 }

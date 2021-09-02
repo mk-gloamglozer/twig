@@ -3,12 +3,16 @@ package main
 import (
 	"io/ioutil"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestFileReadGivenPath(t *testing.T) {
 	fp := "./test/testfile"
 
-	file := readFile(fp)
+	file, err := new(IFileReader).readFile(fp)
+
+	assert.NoError(t, err, "An error occured when reading test file")
 
 	if file.Name != fp {
 		t.Errorf("testfile name should have been %s but was %s", fp, file.Name)
