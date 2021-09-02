@@ -1,4 +1,4 @@
-module github.com/sky-uk/helm-value-compiler
+module github.com/mk-gloamglozer/twig
 
 go 1.17
 
