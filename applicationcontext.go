@@ -23,9 +23,17 @@ func (ctx *IApplicationContext) Template() []byte {
 	return ctx.baseFile.Data
 }
 
-func newApplicationContext(file *File) ApplicationContext {
+func newApplicationContext(path string) (ApplicationContext, error) {
+
+	fileReader := defaultReader()
+
+	file, err := fileReader.readFile(path)
+	if err != nil {
+		return nil, err
+	}
+
 	return &IApplicationContext{
 		baseFile:   file,
-		fileReader: defaultReader(),
-	}
+		fileReader: fileReader,
+	}, nil
 }
