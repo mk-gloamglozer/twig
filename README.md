@@ -1,4 +1,4 @@
-# helm-value-compiler
+# Twig (cos sprig)
 Compiles files containing go template instructions into helm value.yaml files
 
 ## Context
