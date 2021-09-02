@@ -111,7 +111,10 @@ func TestWhenFileIsMissing_ThenFromFileFailsReturnsError(t *testing.T) {
 	vars := "./nonExistantFile"
 
 	var b strings.Builder
-	err := template.Must(template.New("test").Funcs(funcMap(&testFileReader{}, &testAppCtx{})).Parse(tpl)).Execute(&b, vars)
+	err := template.Must(
+		template.New("test").
+			Funcs(funcMap(&testFileReader{}, &testAppCtx{})).
+			Parse(tpl)).Execute(&b, vars)
 	if assert.Error(t, err) {
 		if ferr, ok := err.(template.ExecError); ok {
 			path := filepath.Join(baseDir, vars)
