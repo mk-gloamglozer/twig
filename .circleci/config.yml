@@ -1,0 +1,18 @@
+version: 2.1
+jobs:
+  test:
+    docker:
+      - image: cimg/go
+    steps:
+      - checkout
+      - run:
+          name: run unit tests 
+          command: |
+            go test
+      - run:
+          name: run integration tests 
+          command: |
+            ./integration-tests/test.sh
+    
+        
+    
