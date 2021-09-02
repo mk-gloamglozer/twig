@@ -6,7 +6,7 @@ import (
 )
 
 type FileReader interface {
-	readFile(path string) (*File, error)
+	readFile(string) (*File, error)
 }
 
 type IFileReader struct {
@@ -15,6 +15,10 @@ type IFileReader struct {
 type File struct {
 	Name string
 	Data []byte
+}
+
+func defaultReader() FileReader {
+	return &IFileReader{}
 }
 
 func (*IFileReader) readFile(path string) (*File, error) {

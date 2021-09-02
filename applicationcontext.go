@@ -3,20 +3,29 @@ package main
 type ApplicationContext interface {
 	BaseFilePath() string
 	Template() []byte
+	FileReader() FileReader
 }
 
 type IApplicationContext struct {
-	BaseFile *File
+	baseFile   *File
+	fileReader FileReader
+}
+
+func (ctx *IApplicationContext) FileReader() FileReader {
+	return ctx.fileReader
 }
 
 func (ctx *IApplicationContext) BaseFilePath() string {
-	return ctx.BaseFile.Name
+	return ctx.baseFile.Name
 }
 
 func (ctx *IApplicationContext) Template() []byte {
-	return ctx.BaseFile.Data
+	return ctx.baseFile.Data
 }
 
 func newApplicationContext(file *File) ApplicationContext {
-	return &IApplicationContext{BaseFile: file}
+	return &IApplicationContext{
+		baseFile:   file,
+		fileReader: defaultReader(),
+	}
 }

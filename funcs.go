@@ -12,7 +12,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-func funcMap(fileReader FileReader, ctx ApplicationContext) template.FuncMap {
+func funcMap(ctx ApplicationContext) template.FuncMap {
 	f := sprig.TxtFuncMap()
 
 	extra := template.FuncMap{
@@ -23,7 +23,7 @@ func funcMap(fileReader FileReader, ctx ApplicationContext) template.FuncMap {
 		"toJson":        toJSON,
 		"fromJson":      fromJSON,
 		"fromJsonArray": fromJSONArray,
-		"fromFile":      fromFileWithCtx(fileReader, ctx),
+		"fromFile":      fromFileWithCtx(ctx),
 	}
 
 	for k, v := range extra {
@@ -33,8 +33,8 @@ func funcMap(fileReader FileReader, ctx ApplicationContext) template.FuncMap {
 	return f
 }
 
-func fromFileWithCtx(fileReader FileReader, ctx ApplicationContext) func(string) (string, error) {
-	return fromFile(fileReader, ctx.BaseFilePath())
+func fromFileWithCtx(ctx ApplicationContext) func(string) (string, error) {
+	return fromFile(ctx.FileReader(), ctx.BaseFilePath())
 }
 
 // fromFile takes a file path and reads that file contents as a string

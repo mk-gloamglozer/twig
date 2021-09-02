@@ -30,6 +30,8 @@ func (*testAppCtx) BaseFilePath() string { return "/base" }
 
 func (*testAppCtx) Template() []byte { return []byte("random string") }
 
+func (*testAppCtx) FileReader() FileReader { return &testFileReader{} }
+
 func TestFuncs(t *testing.T) {
 	//TODO write tests for failure cases
 	tests := []struct {
@@ -100,7 +102,7 @@ func TestFuncs(t *testing.T) {
 
 	for _, tt := range tests {
 		var b strings.Builder
-		err := template.Must(template.New("test").Funcs(funcMap(&testFileReader{}, &testAppCtx{})).Parse(tt.tpl)).Execute(&b, tt.vars)
+		err := template.Must(template.New("test").Funcs(funcMap(&testAppCtx{})).Parse(tt.tpl)).Execute(&b, tt.vars)
 		assert.NoError(t, err)
 		assert.Equal(t, tt.expect, b.String(), tt.tpl)
 	}
@@ -113,7 +115,7 @@ func TestWhenFileIsMissing_ThenFromFileFailsReturnsError(t *testing.T) {
 	var b strings.Builder
 	err := template.Must(
 		template.New("test").
-			Funcs(funcMap(&testFileReader{}, &testAppCtx{})).
+			Funcs(funcMap(&testAppCtx{})).
 			Parse(tpl)).Execute(&b, vars)
 	if assert.Error(t, err) {
 		if ferr, ok := err.(template.ExecError); ok {
