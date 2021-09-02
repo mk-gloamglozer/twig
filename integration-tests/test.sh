@@ -2,16 +2,22 @@
 
 set -eo pipefail 
 
-templateFile="./test.tmpl"
+dirname=`dirname $0`
+templateFile="$dirname/test.tmpl"
 go run $1 $templateFile
 
-expectedOut="./expected-out"
-actualOut="./values.yaml"
+cwd=$(pwd)
+expectedOut="$dirname/expected-out"
+actualOut="$cwd/values.yaml"
 
 if cmp -s "$expectedOut" "$actualOut"; then
     code=0;
 else
     printf 'Expected output and actual output are not the same';
+    printf 'Expected:'
+    cat $expectedOut
+    printf 'ActualOut'
+    cat $actualOut
     code=1;
 fi
 
