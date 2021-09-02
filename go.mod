@@ -1,4 +1,4 @@
-module example.com/hello
+module github.com/sky-uk/helm-value-compiler
 
 go 1.17
 
