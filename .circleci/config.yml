@@ -12,7 +12,7 @@ jobs:
       - run:
           name: run integration tests 
           command: |
-            ./integration-tests/test.sh
+            ./integration-tests/test.sh .
 workflows:
   version: 2
   build:

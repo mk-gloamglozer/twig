@@ -1,7 +1,9 @@
 #!/bin/bash
 
+set -eo pipefail 
+
 templateFile="./test.tmpl"
-go run ../ $templateFile
+go run $1 $templateFile
 
 expectedOut="./expected-out"
 actualOut="./values.yaml"
